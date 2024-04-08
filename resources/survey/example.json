@@ -1,0 +1,10 @@
+{
+    "title": "Example Category",
+    "questions": [
+        {
+            "question": "Question A?",
+            "expected": true,
+            "advice": "Advice about this question"
+        }
+    ]
+}
