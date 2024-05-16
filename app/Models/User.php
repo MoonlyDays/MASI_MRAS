@@ -11,7 +11,7 @@ use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $name
