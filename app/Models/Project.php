@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -17,6 +19,8 @@ use Illuminate\Support\Carbon;
  * @property int $user_id
  * @property string $title
  * @property-read User $user
+ * @property-read Collection<int, Response> $responses
+ * @property-read int|null $responses_count
  * @method static Builder|Project newModelQuery()
  * @method static Builder|Project newQuery()
  * @method static Builder|Project query()
@@ -29,8 +33,20 @@ use Illuminate\Support\Carbon;
  */
 class Project extends Model
 {
+    protected $fillable = [
+        "title",
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasMany<Response>
+     */
+    public function responses(): HasMany
+    {
+        return $this->hasMany(Response::class);
     }
 }

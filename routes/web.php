@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,5 +15,12 @@ Route::middleware("guest")->group(function () {
 });
 
 Route::middleware("auth")->group(function () {
-    Route::get("/", [ProjectsController::class, "index"])->name("projects.index");
+    Route::resource("projects", ProjectsController::class);
+    Route::resource("projects.reports", ReportController::class)->shallow();
+
+    Route::get("projects/{project}/questions/{question}",
+        [ProjectsController::class, "question"])->name("projects.questions.show");
+
+    Route::post("projects/{project}/questions/{question}",
+        [ProjectsController::class, "answer"])->name("projects.questions.answer");
 });

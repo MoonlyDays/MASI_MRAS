@@ -11,14 +11,17 @@ use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function loginForm(): View {
+    public function loginForm(): View
+    {
         return view("auth.login");
     }
 
-    public function login(LoginRequest $request): RedirectResponse {
-        $data = $request->validated();
+    public function login(LoginRequest $request): RedirectResponse
+    {
+        $remember = $request->filled("remember");
+        if (Auth::attempt($request->only(["name", "password"]), $remember)) {
+            session()->regenerateToken();
 
-        if (Auth::attempt($data)) {
             return to_route("home");
         }
 
@@ -27,14 +30,18 @@ class AuthController extends Controller
         ]);
     }
 
-    public function registerForm(): View {
+    public function registerForm(): View
+    {
         return view("auth.register");
     }
 
-    public function register(RegisterRequest $request): RedirectResponse {
-        $data = $request->validated();
-        $user = User::create($data);
-        Auth::login($user);
+    public function register(RegisterRequest $request): RedirectResponse
+    {
+        $remember = $request->filled("remember");
+        $user = User::create($request->only(["name", "password"]));
+
+        Auth::login($user, $remember);
+        session()->regenerateToken();
 
         return to_route("home");
     }

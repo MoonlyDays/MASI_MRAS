@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -19,6 +21,8 @@ use Illuminate\Support\Carbon;
  * @property int $expected
  * @property string|null $advice
  * @property-read Category $category
+ * @property-read Collection<int, Response> $responses
+ * @property-read int|null $responses_count
  * @method static Builder|Question newModelQuery()
  * @method static Builder|Question newQuery()
  * @method static Builder|Question query()
@@ -36,5 +40,15 @@ class Question extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function responses(): HasMany
+    {
+        return $this->hasMany(Response::class);
+    }
+
+    public function next(): Question|null
+    {
+        return Question::where('id', '>', $this->id)->orderBy("id", "ASC")->first();
     }
 }
