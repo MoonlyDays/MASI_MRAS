@@ -73,9 +73,50 @@
                     </tbody>
                 </table>
 
-                <canvas id="canvas_category_{{ $category->id }}" class="max-h-64"></canvas>
+                @if($relatedCount > 0)
+                    <canvas id="canvas_category_{{ $category->id }}" class="max-h-64"></canvas>
+                    <script>
+                        new Chart(document.querySelector("#canvas_category_{{ $category->id }}"), {
+                            type: 'doughnut',
+                            data: {
+                                datasets: [{
+                                    data: [
+                                        {{ round($incorrectCount / $relatedCount * 100) }},
+                                        {{ round($correctCount / $relatedCount * 100) }},
+                                    ],
+                                    backgroundColor: [
+                                        '#EB1616',
+                                        '#1d9f71',
+                                    ],
+                                }],
+                                labels: [
+                                    'Insecure',
+                                    'Secure'
+                                ],
+                            },
+                        })
+                    </script>
+                @endif
+            </div>
+        @endforeach
+
+        <div class="bg-secondary rounded py-3 px-4">
+
+            @php
+                $totalCount = $data->count();
+                $unrelatedCount = $data->filter(function ($x) { return $x == Response::UNRELATED; })->count();
+                $relatedCount = $totalCount - $unrelatedCount;
+                $correctCount = $data->filter(function ($x) { return $x == Response::YES; })->count();
+                $incorrectCount = $relatedCount - $correctCount;
+            @endphp
+
+            <h6 class="text-lg mt-4">Total Security
+                Level: {{ $relatedCount > 0 ? floor($correctCount / $relatedCount * 100) : "?" }}%</h6>
+
+            @if($relatedCount > 0)
+                <canvas id="canvas_category_all" class="max-h-80"></canvas>
                 <script>
-                    new Chart(document.querySelector("#canvas_category_{{ $category->id }}"), {
+                    new Chart(document.querySelector("#canvas_category_all"), {
                         type: 'doughnut',
                         data: {
                             datasets: [{
@@ -95,44 +136,9 @@
                         },
                     })
                 </script>
-            </div>
-        @endforeach
-
-        <div class="bg-secondary rounded py-3 px-4">
-
+            @endif
             @php
-                $totalCount = $data->count();
-                $unrelatedCount = $data->filter(function ($x) { return $x == Response::UNRELATED; })->count();
-                $relatedCount = $totalCount - $unrelatedCount;
-                $correctCount = $data->filter(function ($x) { return $x == Response::YES; })->count();
-                $incorrectCount = $relatedCount - $correctCount;
-            @endphp
-
-            <h6 class="text-lg mt-4">Total Security Level: {{ floor($correctCount / $relatedCount * 100) }}%</h6>
-            <canvas id="canvas_category_all" class="max-h-80"></canvas>
-            <script>
-                new Chart(document.querySelector("#canvas_category_all"), {
-                    type: 'doughnut',
-                    data: {
-                        datasets: [{
-                            data: [
-                                {{ round($incorrectCount / $relatedCount * 100) }},
-                                {{ round($correctCount / $relatedCount * 100) }},
-                            ],
-                            backgroundColor: [
-                                '#EB1616',
-                                '#1d9f71',
-                            ],
-                        }],
-                        labels: [
-                            'Insecure',
-                            'Secure'
-                        ],
-                    },
-                })
-            </script>
-            @php
-                $incorrectIds = $data->filter(function ($x) { return $x == Response::UNRELATED; })->keys()->toArray();
+                $incorrectIds = $data->filter(function ($x) { return $x == Response::NO; })->keys()->toArray();
                 $advices = $questions->only($incorrectIds)->map(fn(Question $question) => $question->advice);
             @endphp
 
