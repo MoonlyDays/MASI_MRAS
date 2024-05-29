@@ -22,7 +22,7 @@ class AuthController extends Controller
         if (Auth::attempt($request->only(["name", "password"]), $remember)) {
             session()->regenerateToken();
 
-            return to_route("home");
+            return to_route("projects.index");
         }
 
         return back()->withErrors([
@@ -43,6 +43,14 @@ class AuthController extends Controller
         Auth::login($user, $remember);
         session()->regenerateToken();
 
-        return to_route("home");
+        return to_route("projects.create");
+    }
+
+    public function logout(): RedirectResponse
+    {
+        Auth::logout();
+        session()->regenerateToken();
+
+        return to_route("login");
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Project;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +15,8 @@ return new class extends Migration {
             $table->id();
             $table->timestamps();
 
+            $table->foreignIdFor(Project::class)->constrained()->cascadeOnDelete();
+            $table->string("email");
             $table->json("data");
         });
     }

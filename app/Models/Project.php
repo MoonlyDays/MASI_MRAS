@@ -21,6 +21,8 @@ use Illuminate\Support\Carbon;
  * @property-read User $user
  * @property-read Collection<int, Response> $responses
  * @property-read int|null $responses_count
+ * @property-read Collection<int, Report> $reports
+ * @property-read int|null $reports_count
  * @method static Builder|Project newModelQuery()
  * @method static Builder|Project newQuery()
  * @method static Builder|Project query()
@@ -48,5 +50,15 @@ class Project extends Model
     public function responses(): HasMany
     {
         return $this->hasMany(Response::class);
+    }
+
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    public function isCompleted(): bool
+    {
+        return Question::count() >= $this->responses()->count();
     }
 }

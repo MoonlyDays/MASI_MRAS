@@ -12,14 +12,18 @@
             <h3>Sign Up</h3>
         </div>
 
+        @if($errors->any())
+            {{ implode('', $errors->all('<div>:message</div>')) }}
+        @endif
+
         <div class="form-floating mb-3">
             <input
-                    type="text"
-                    name="name"
-                    id="inputName"
-                    class="form-control"
-                    placeholder="Username"
-                    value="{{ old("name") }}"
+                type="text"
+                name="name"
+                id="inputName"
+                class="form-control"
+                placeholder="Username"
+                value="{{ old("name") }}"
             >
             <label for="inputName">Username</label>
 
@@ -32,12 +36,12 @@
 
         <div class="form-floating mb-3">
             <input
-                    type="password"
-                    name="password"
-                    id="inputPassword"
-                    class="form-control"
-                    placeholder="Username"
-                    value="{{ old("password") }}"
+                type="password"
+                name="password"
+                id="inputPassword"
+                class="form-control"
+                placeholder="Username"
+                value="{{ old("password") }}"
             >
             <label for="inputPassword">Password</label>
 
@@ -48,12 +52,12 @@
 
         <div class="form-floating mb-4">
             <input
-                    type="password"
-                    name="password_confirmation"
-                    id="inputPasswordConfirmation"
-                    class="form-control"
-                    placeholder="Confirm Password"
-                    value="{{ old("password_confirmation") }}"
+                type="password"
+                name="password_confirmation"
+                id="inputPasswordConfirmation"
+                class="form-control"
+                placeholder="Confirm Password"
+                value="{{ old("password_confirmation") }}"
             >
             <label for="inputPasswordConfirmation">Confirm Password</label>
 
@@ -65,10 +69,10 @@
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div class="form-check">
                 <input
-                        type="checkbox"
-                        name="remember"
-                        class="form-check-input"
-                        id="inputRemember"
+                    type="checkbox"
+                    name="remember"
+                    class="form-check-input"
+                    id="inputRemember"
                 />
                 <label class="form-check-label" for="inputRemember">Remember me</label>
             </div>

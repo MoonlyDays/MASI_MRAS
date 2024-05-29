@@ -2,11 +2,17 @@
 
 namespace App\Http\Requests;
 
+use Auth;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class ReportRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return Auth::check();
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,8 +21,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => "required|string",
-            "password" => "required|string",
+            "email" => "required|email"
         ];
     }
 }

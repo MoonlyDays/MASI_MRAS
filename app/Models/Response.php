@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -16,6 +17,7 @@ use Illuminate\Support\Carbon;
  * @property int $project_id
  * @property int $question_id
  * @property int $answer
+ * @property-read Question|null $question
  * @method static Builder|Response newModelQuery()
  * @method static Builder|Response newQuery()
  * @method static Builder|Response query()
@@ -25,23 +27,20 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Response whereProjectId($value)
  * @method static Builder|Response whereQuestionId($value)
  * @method static Builder|Response whereUpdatedAt($value)
- * @method static Builder|Response project(Project $project)
- * @method static Builder|Response question(Question $question)
  * @mixin Eloquent
  */
 class Response extends Model
 {
+    const YES = 1;
+    const NO = 2;
+    const UNRELATED = 3;
+
     protected $fillable = [
         'answer',
     ];
 
-    protected function scopeQuestion(Builder $query, Question $question)
+    public function question(): BelongsTo
     {
-        return $query->where("question_id", $question->id);
-    }
-
-    protected function scopeProject(Builder $query, Project $project)
-    {
-        return $query->where("project_id", $project->id);
+        return $this->belongsTo(Question::class);
     }
 }

@@ -16,14 +16,15 @@ use Illuminate\View\View;
 
 class ProjectsController extends Controller
 {
-    /**
-     * @throws AuthorizationException
-     */
-    function index(): View
+    function index(): RedirectResponse
     {
-        Gate::authorize("index", Project::class);
+        $user = Auth::user();
+        $project = $user->projects()->first();
+        if (empty($project)) {
+            return to_route("projects.create");
+        }
 
-        return view("projects.index");
+        return to_route("projects.show", $project);
     }
 
     /**
@@ -83,15 +84,22 @@ class ProjectsController extends Controller
         return to_route("projects.show", $project);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function question(Project $project, Question $question): View
     {
+        Gate::authorize("update", $project);
+
         $categories = Category::with([
             "questions" => [
                 "responses" => fn($query) => $query->where('project_id', $project->id),
             ],
         ])->get();
         $nextQuestionId = Question::where("id", '>', $question->id)->min("id");
-        $response = $project->responses()->question($question)->first();
+        $response = $project->responses()
+            ->where('question_id', $question->id)
+            ->first();
 
         return view("projects.show", compact(
             "project",
@@ -102,10 +110,17 @@ class ProjectsController extends Controller
         ));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function answer(Project $project, Question $question, AnswerQuestionRequest $request): RedirectResponse
     {
+        Gate::authorize("update", $project);
+
         /** @var Response $response */
-        $response = $project->responses()->question($question)->firstOrNew();
+        $response = $project->responses()
+            ->where('question_id', $question->id)
+            ->firstOrNew();
         $response->question_id = $question->id;
         $response->fill($request->validated());
         $response->save();
