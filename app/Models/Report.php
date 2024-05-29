@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
  * @property int $project_id
  * @property-read Project $project
  * @property array $data
+ * @property string $email
  * @method static Builder|Report newModelQuery()
  * @method static Builder|Report newQuery()
  * @method static Builder|Report query()
@@ -25,14 +26,14 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Report whereId($value)
  * @method static Builder|Report whereProjectId($value)
  * @method static Builder|Report whereUpdatedAt($value)
- * @property string $email
  * @method static Builder|Report whereEmail($value)
  * @mixin Eloquent
  */
 class Report extends Model
 {
     protected $fillable = [
-        'data'
+        'data',
+        'email'
     ];
 
     protected $casts = [

@@ -27,23 +27,23 @@
                                 @foreach($category->questions as $catQuestion)
                                     <li>
                                         <a
-                                            href="{{ route("projects.questions.show", [$project, $catQuestion]) }}"
-                                            @class([
-                                            "flex items-center gap-2",
-                                            "font-bold text-primary" => $catQuestion->id == $question->id,
-                                            ])
+                                                href="{{ route("projects.questions.show", [$project, $catQuestion]) }}"
+                                                @class([
+                                                "flex items-center gap-2",
+                                                "font-bold text-primary" => $catQuestion->id == $question->id,
+                                                ])
 
                                         >
                                             @php($catQuestResp = $catQuestion->responses->first())
                                             @isset($catQuestResp)
                                                 @switch($catQuestResp->answer)
-                                                    @case(1)
+                                                    @case(Response::YES)
                                                         @svg('fontisto-wink', 'w-5 shrink-0 text-green-500')
                                                         @break
-                                                    @case(2)
+                                                    @case(Response::NO)
                                                         @svg('fontisto-mad', 'w-5 shrink-0 text-red-500')
                                                         @break
-                                                    @case(3)
+                                                    @case(Response::UNRELATED)
                                                         @svg('fontisto-neutral', 'w-5 shrink-0 text-yellow-500')
                                                         @break
                                                 @endswitch
@@ -72,39 +72,39 @@
 
                     <div class="form-check">
                         <input
-                            class="form-check-input"
-                            type="radio"
-                            name="answer"
-                            id="answerYes"
-                            value="1"
-                            onchange="this.form.submit()"
-                            {{ $response?->answer == 1 ? "checked" : "" }}
+                                class="form-check-input"
+                                type="radio"
+                                name="answer"
+                                id="answerYes"
+                                value="1"
+                                onchange="this.form.submit()"
+                                {{ $response?->answer == 1 ? "checked" : "" }}
                         >
                         <label class="form-check-label" for="answerYes">Yes</label>
                     </div>
 
                     <div class="form-check">
                         <input
-                            class="form-check-input"
-                            type="radio"
-                            name="answer"
-                            id="answerNo"
-                            value="2"
-                            onchange="this.form.submit()"
-                            {{ $response?->answer == 2 ? "checked" : "" }}
+                                class="form-check-input"
+                                type="radio"
+                                name="answer"
+                                id="answerNo"
+                                value="2"
+                                onchange="this.form.submit()"
+                                {{ $response?->answer == 2 ? "checked" : "" }}
                         >
                         <label class="form-check-label" for="answerNo">No</label>
                     </div>
 
                     <div class="form-check">
                         <input
-                            class="form-check-input"
-                            type="radio"
-                            name="answer"
-                            id="answerUnrelated"
-                            value="3"
-                            onchange="this.form.submit()"
-                            {{ $response?->answer == 3 ? "checked" : "" }}
+                                class="form-check-input"
+                                type="radio"
+                                name="answer"
+                                id="answerUnrelated"
+                                value="3"
+                                onchange="this.form.submit()"
+                                {{ $response?->answer == 3 ? "checked" : "" }}
                         >
                         <label class="form-check-label" for="answerUnrelated">Unrelated</label>
                     </div>

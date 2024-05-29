@@ -26,7 +26,9 @@
     <!-- Customized Bootstrap Stylesheet -->
     @vite("resources/css/bootstrap.min.css")
     @vite("resources/css/style.css")
-    @vite("resources/css/app.css")
+    @vite("resources/js/app.ts")
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </head>
 
 <body>

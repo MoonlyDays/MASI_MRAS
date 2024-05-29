@@ -35,35 +35,42 @@ class ReportController extends Controller
         Gate::authorize('create', [Report::class, $project]);
 
         return view('reports.create', compact([
-            'project'
+            'project',
         ]));
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function store(Project $project, ReportRequest $request): RedirectResponse
     {
-        $project->load([
-            'responses',
-            'responses.question',
-            'responses.question.category'
+        Gate::authorize('create', [Report::class, $project]);
+
+        $project->load('responses');
+
+        $data = $project->responses->pluck('answer', 'question_id');
+        $report = $project->reports()->create([
+            'data' => $data,
+            'email' => $request->get("email"),
         ]);
 
-        dd($project);
+        return to_route("reports.show", $report);
+    }
 
-        $related_responses = 0;
-        $correct_responses = 0;
+    /**
+     * @throws AuthorizationException
+     */
+    public function show(Report $report): View
+    {
+        Gate::authorize('show', $report);
 
-        foreach ($project->responses as $response) {
-            if ($response->answer == Response::UNRELATED) {
-                continue;
-            }
+        $project = $report->project;
+        $data = collect($report->data);
+        $questions = Question::findMany($data->keys());
+        $categories = $questions->load('category')->pluck('category')->unique();
 
-            $related_responses++;
-
-        }
-
-        dd(compact(
-            'related_responses',
-            'correct_responses'
-        ));
+        return view("reports.show", compact([
+            'report', 'project', 'questions', 'categories',
+        ]));
     }
 }
