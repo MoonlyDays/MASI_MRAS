@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReportRequest;
+use App\Models\Category;
 use App\Models\Project;
 use App\Models\Question;
 use App\Models\Report;
 use App\Models\Response;
 use Gate;
+use Http;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -60,17 +62,14 @@ class ReportController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function show(Report $report): View
+    public function show(Report $report)
     {
         Gate::authorize('show', $report);
-
         $project = $report->project;
-        $data = collect($report->data);
-        $questions = Question::findMany($data->keys());
-        $categories = $questions->load('category')->pluck('category')->unique();
 
+        $cat = Http::get('https://api.thecatapi.com/v1/images/search')->json('0.url');
         return view("reports.show", compact([
-            'report', 'project', 'questions', 'categories',
+            'report', 'project', 'cat'
         ]));
     }
 }

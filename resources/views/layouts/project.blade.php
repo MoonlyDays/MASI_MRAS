@@ -2,11 +2,13 @@
 
 @section("page")
     <div class="p-4">
-        <div class="text-white font-bold text-4xl flex gap-3 items-center mb-2">
-            <div>{{ $project->title }}</div>
-            <a href="{{ route("projects.edit", $project) }}">
-                @svg('ri-pencil-fill', 'w-6 text-primary')
-            </a>
+        <div class="text-white font-bold text-4xl flex mb-2">
+            <div class="flex gap-3 items-center">
+                <div>{{ $project->title }}</div>
+                <a href="{{ route("projects.edit", $project) }}">
+                    @svg('ri-pencil-fill', 'w-6 text-primary')
+                </a>
+            </div>
         </div>
         <div class="gap-2 mb-4">
             <div class="flex items-center gap-2 font-bold">

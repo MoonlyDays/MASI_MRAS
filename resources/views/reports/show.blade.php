@@ -1,23 +1,9 @@
 @php
-    use App\Models\Category;
-    use App\Models\Question;
     use App\Models\Report;
     use App\Models\Response;
-    use App\Models\Project;
-    use Illuminate\Database\Eloquent\Collection;
     /** @var Report $report */
-    /** @var Project $project */
-    /** @var Collection<Question> $questions */
-    /** @var Collection<Category> $categories */
 
-    $data = collect($report->data);
-
-    $answerDisplay = [
-        '???',
-        'Yes',
-        'No',
-        'Unrelated',
-    ];
+    $answerDisplay = ['', 'Yes', 'No', 'Unrelated'];
 
 @endphp
 
@@ -25,24 +11,16 @@
 
 @section("project")
 
-    <div class="grid grid-cols-1 gap-2">
+    <div class="grid grid-cols-1 gap-6">
 
         <div class="bg-secondary rounded py-3 px-4 mb-2">
             <h6 class="text-xl">Report generated from {{ $report->created_at->toDateTimeString() }}</h6>
         </div>
 
-        @foreach($categories as $category)
+        @foreach($report->categories() as $category)
             <div class="bg-secondary rounded py-3 px-4">
-                <h6 class="mb-4">{{ $category->title }}</h6>
-
-                @php
-                    $categoryData = $data->only($category->questions->pluck('id'));
-                    $totalCount = $categoryData->count();
-                    $unrelatedCount = $categoryData->filter(function ($x) { return $x == Response::UNRELATED; })->count();
-                    $relatedCount = $totalCount - $unrelatedCount;
-                    $correctCount = $categoryData->filter(function ($x) { return $x == Response::YES; })->count();
-                    $incorrectCount = $relatedCount - $correctCount;
-                @endphp
+                <h6 class="mb-4 text-xl">{{ $category->title }}</h6>
+                @php($stats = $report->statsFor($category))
 
                 <table class="table">
                     <thead>
@@ -52,28 +30,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($category->questions as $question)
-                        <tr>
-                            <td> {{ $question->question }}</td>
-                            <td>
-                                @switch($categoryData[$question->id] ?? 0)
-                                    @case(Response::UNRELATED)
-                                        <div class="text-yellow-500">Unrelated</div>
-                                        @break
-                                    @case(Response::YES)
-                                        <div class="text-green-500">Yes</div>
-                                        @break
-                                    @case(Response::NO)
-                                        <div class="text-red-500">No</div>
-                                        @break
-                                @endswitch
-                            </td>
+                    @foreach($stats["listings"] as $listing)
+                        <tr @class(["opacity-30" => $listing['answer'] == Response::UNRELATED])>
+                            <td> {{ $listing['question'] }}</td>
+                            <td class="{{ $listing['color'] }}"> {!! $answerDisplay[$listing['answer']] !!}</td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
 
-                @if($relatedCount > 0)
+                @if($stats["related_count"] > 0)
                     <canvas id="canvas_category_{{ $category->id }}" class="max-h-64"></canvas>
                     <script>
                         new Chart(document.querySelector("#canvas_category_{{ $category->id }}"), {
@@ -81,8 +47,8 @@
                             data: {
                                 datasets: [{
                                     data: [
-                                        {{ round($incorrectCount / $relatedCount * 100) }},
-                                        {{ round($correctCount / $relatedCount * 100) }},
+                                        {{ 100 - $stats["secure_percent"] }},
+                                        {{ $stats["secure_percent"] }},
                                     ],
                                     backgroundColor: [
                                         '#EB1616',
@@ -97,23 +63,23 @@
                         })
                     </script>
                 @endif
+
+                <ul class="list-disc m-4">
+                    @foreach($stats['advices'] as $advice)
+                        <li class="pl-2 ">{{ $advice }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endforeach
 
         <div class="bg-secondary rounded py-3 px-4">
 
-            @php
-                $totalCount = $data->count();
-                $unrelatedCount = $data->filter(function ($x) { return $x == Response::UNRELATED; })->count();
-                $relatedCount = $totalCount - $unrelatedCount;
-                $correctCount = $data->filter(function ($x) { return $x == Response::YES; })->count();
-                $incorrectCount = $relatedCount - $correctCount;
-            @endphp
+            @php($stats = $report->statsFor(null))
+            <h6 class="text-lg">
+                Total Security Level: {{ $stats["secure_percent"] }}%
+            </h6>
 
-            <h6 class="text-lg mt-4">Total Security
-                Level: {{ $relatedCount > 0 ? floor($correctCount / $relatedCount * 100) : "?" }}%</h6>
-
-            @if($relatedCount > 0)
+            @if($stats["related_count"] > 0)
                 <canvas id="canvas_category_all" class="max-h-80"></canvas>
                 <script>
                     new Chart(document.querySelector("#canvas_category_all"), {
@@ -121,8 +87,8 @@
                         data: {
                             datasets: [{
                                 data: [
-                                    {{ round($incorrectCount / $relatedCount * 100) }},
-                                    {{ round($correctCount / $relatedCount * 100) }},
+                                    {{ 100 - $stats["secure_percent"] }},
+                                    {{ $stats["secure_percent"] }},
                                 ],
                                 backgroundColor: [
                                     '#EB1616',
@@ -137,18 +103,10 @@
                     })
                 </script>
             @endif
-            @php
-                $incorrectIds = $data->filter(function ($x) { return $x == Response::NO; })->keys()->toArray();
-                $advices = $questions->only($incorrectIds)->map(fn(Question $question) => $question->advice);
-            @endphp
 
-            <ul class="list-disc m-4">
-                @foreach($advices as $advice)
-                    <li class="pl-2 text-white">{{ $advice }}</li>
-                @endforeach
-            </ul>
-
-
+            <div class="flex justify-center mt-4 w-full">
+                <img src="{{ $cat }}" width="300"/>
+            </div>
         </div>
     </div>
 @endsection

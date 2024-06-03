@@ -19,13 +19,13 @@
         <div class="w-1/3 shrink-0 h-full">
             <div class="bg-secondary rounded h-100 p-4">
                 <h6 class="mb-4">Questions</h6>
-                <ul>
+                <div>
                     @foreach($categories as $category)
-                        <li class="mb-3">
+                        <div class="mb-3">
                             <div class="text-gray-400 font-black">{{ $category->title }}</div>
-                            <ul>
+                            <div>
                                 @foreach($category->questions as $catQuestion)
-                                    <li>
+                                    <div>
                                         <a
                                                 href="{{ route("projects.questions.show", [$project, $catQuestion]) }}"
                                                 @class([
@@ -55,12 +55,12 @@
                                                 {{ $catQuestion->question }}
                                             </div>
                                         </a>
-                                    </li>
+                                    </div>
                                 @endforeach
-                            </ul>
-                        </li>
+                            </div>
+                        </div>
                     @endforeach
-                </ul>
+                </div>
             </div>
         </div>
         <div class="w-full">
