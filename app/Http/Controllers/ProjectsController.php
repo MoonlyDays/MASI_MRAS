@@ -118,13 +118,7 @@ class ProjectsController extends Controller
     {
         Gate::authorize("update", $project);
 
-        /** @var Response $response */
-        $response = $project->responses()
-            ->where('question_id', $question->id)
-            ->firstOrNew();
-        $response->question_id = $question->id;
-        $response->fill($request->validated());
-        $response->save();
+        $project->setAnswerFor($question, $request->get("answer"));
 
         $nextQuestion = $question->next();
         if (isset($nextQuestion)) {

@@ -18,6 +18,7 @@
             <tr>
                 <th scope="col"></th>
                 <th scope="col" class="w-full">Title</th>
+                <th scope="col">Secure Percent</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -29,6 +30,9 @@
                     </th>
                     <td class="align-middle">
                         Report generated at {{ $report->created_at->toDateTimeString() }}
+                    </td>
+                    <td class="align-middle">
+                        {{ $report->percent }}%
                     </td>
                     <td>
                         <a href="{{ route("reports.show", $report) }}">

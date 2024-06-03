@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -50,11 +50,5 @@ class Question extends Model
     public function next(): Question|null
     {
         return Question::where('id', '>', $this->id)->orderBy("id", "ASC")->first();
-    }
-
-    public function scopeRelatedCount(Builder $builder, Project $project) {
-
-
-
     }
 }

@@ -5,13 +5,14 @@ namespace App\Models;
 use Arr;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -20,6 +21,7 @@ use Illuminate\Support\Collection;
  * @property-read Project $project
  * @property array $data
  * @property string $email
+ * @property-read mixed $percent
  * @method static Builder|Report newModelQuery()
  * @method static Builder|Report newQuery()
  * @method static Builder|Report query()
@@ -29,6 +31,7 @@ use Illuminate\Support\Collection;
  * @method static Builder|Report whereProjectId($value)
  * @method static Builder|Report whereUpdatedAt($value)
  * @method static Builder|Report whereEmail($value)
+ * @method static Builder|Report wherePercent($value)
  * @mixin Eloquent
  */
 class Report extends Model
@@ -45,6 +48,13 @@ class Report extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function percent(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => once(fn() => $this->statsFor(null)["secure_percent"])
+        );
     }
 
     /**
