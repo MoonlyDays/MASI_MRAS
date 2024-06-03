@@ -42,11 +42,17 @@
             </tbody>
         </table>
         <div class="flex">
-            <a href="{{ route("projects.reports.create", $project) }}">
-                <button type="button" class="btn btn-primary flex items-center gap-1">
-                    @svg('tabler-report-analytics') Create Report
-                </button>
-            </a>
+            @if($project->isCompleted())
+                <a href="{{ route("projects.reports.create", $project) }}">
+                    <button type="button" class="btn btn-primary flex items-center gap-1">
+                        @svg('tabler-report-analytics') Create Report
+                    </button>
+                </a>
+            @else
+                <div>Please <a href="{{ route("projects.show", $project) }}">finish the survey</a> to generate the
+                    report.
+                </div>
+            @endif
         </div>
 
     </div>

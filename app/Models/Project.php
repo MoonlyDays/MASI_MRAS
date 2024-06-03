@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -59,6 +59,6 @@ class Project extends Model
 
     public function isCompleted(): bool
     {
-        return Question::count() >= $this->responses()->count();
+        return Question::count() <= $this->responses()->count();
     }
 }

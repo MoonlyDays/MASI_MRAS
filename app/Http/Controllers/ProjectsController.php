@@ -90,6 +90,7 @@ class ProjectsController extends Controller
     public function question(Project $project, Question $question): View
     {
         Gate::authorize("update", $project);
+        $question->load("category");
 
         $categories = Category::with([
             "questions" => [

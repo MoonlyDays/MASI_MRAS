@@ -12,10 +12,6 @@
             <h3>Sign Up</h3>
         </div>
 
-        @if($errors->any())
-            {{ implode('', $errors->all('<div>:message</div>')) }}
-        @endif
-
         <div class="form-floating mb-3">
             <input
                 type="text"
@@ -76,7 +72,6 @@
                 />
                 <label class="form-check-label" for="inputRemember">Remember me</label>
             </div>
-            <a href="">Forgot Password</a>
         </div>
 
         <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>

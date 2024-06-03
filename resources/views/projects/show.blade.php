@@ -65,6 +65,7 @@
         </div>
         <div class="w-full">
             <div class="bg-secondary rounded h-100 p-4">
+                <div>{{ $question->category->title }}</div>
                 <h6 class="mb-4 text-2xl">{{ $question->question }}</h6>
 
                 <form method="POST" action="{{ route("projects.questions.answer", [$project, $question]) }}">

@@ -38,7 +38,9 @@
                         </a>
                     </div>
                 </div>
-                <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>About</a>
+                <a href="{{ route("docs") }}" class="nav-item nav-link">
+                    <i class="fa fa-th me-2"></i>Docs
+                </a>
             </div>
         </nav>
     </div>

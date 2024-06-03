@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -42,5 +42,17 @@ class Response extends Model
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
+    }
+
+    public function score(): int
+    {
+        if ($this->answer == self::UNRELATED) {
+            // No difference.
+            return 0;
+        }
+
+        $expected = $this->question->expected ? self::YES : self::NO;
+
+        return $this->answer == $expected ? 1 : -1;
     }
 }
