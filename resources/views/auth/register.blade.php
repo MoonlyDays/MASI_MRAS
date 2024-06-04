@@ -6,9 +6,10 @@
         @csrf
 
         <div class="d-flex align-items-center justify-content-between mb-3">
-            <h3 class="text-primary text-3xl">
-                <i class="fa fa-user-edit me-2"></i>{{ config("app.name") }}
-            </h3>
+            <div class="text-primary font-black text-3xl flex gap-2 items-center">
+                <img src="{{ Vite::asset("resources/img/icon.png") }}" width="48" alt=""/>
+                {{ config("app.name") }}
+            </div>
             <h3>Sign Up</h3>
         </div>
 

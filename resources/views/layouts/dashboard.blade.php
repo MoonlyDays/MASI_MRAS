@@ -6,7 +6,10 @@
     <div class="sidebar pe-4 pb-3">
         <nav class="navbar bg-secondary navbar-dark">
             <a href="{{ route("projects.index") }}" class="navbar-brand mx-4 mb-3">
-                <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>{{ config("app.name") }}</h3>
+                <div class="text-primary font-bold flex gap-2 items-center">
+                    <img src="{{ Vite::asset("resources/img/icon.png") }}" width="48" alt="{{ config("app.name") }}"/>
+                    {{ config("app.name") }}
+                </div>
             </a>
             <div class="d-flex align-items-center ms-4 mb-4">
                 <div class="position-relative">
@@ -23,8 +26,8 @@
             <div class="navbar-nav w-100">
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-						<i class="fa fa-laptop me-2"></i>Projects
-					</a>
+                        <i class="fa fa-laptop me-2"></i>Projects
+                    </a>
                     <div class="dropdown-menu bg-transparent border-0">
 
                         @foreach(Auth::user()->projects as $project)
@@ -41,15 +44,15 @@
                 </div>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-						<i class="fa fa-th me-2"></i>Docs
-					</a>
+                        <i class="fa fa-th me-2"></i>Docs
+                    </a>
                     <div class="dropdown-menu bg-transparent border-0">
 
                         @foreach(File::files(resource_path("docs")) as $file)
-						@php($title = substr($file->getFilename(), 0, -3))
-						<a href="{{ route("docs", $title) }}" class="dropdown-item">
-							   {{ $title }}
-						</a>
+                            @php($title = substr($file->getFilename(), 0, -3))
+                            <a href="{{ route("docs", $title) }}" class="dropdown-item">
+                                {{ $title }}
+                            </a>
                         @endforeach
 
                         <a href="{{ route("projects.create") }}"

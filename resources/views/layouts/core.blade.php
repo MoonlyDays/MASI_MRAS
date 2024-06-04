@@ -29,6 +29,7 @@
     @vite("resources/js/app.ts")
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <link rel="icon" type="image/png" href="{{ Vite::asset("resources/img/icon.png") }}"/>
 </head>
 
 <body>
@@ -48,6 +49,7 @@
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
 @vite("resources/lib/chart/chart.min.js")
 @vite("resources/lib/easing/easing.min.js")
 @vite("resources/lib/waypoints/waypoints.min.js")
