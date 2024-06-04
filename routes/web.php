@@ -28,5 +28,5 @@ Route::middleware("auth")->group(function () {
         [ProjectsController::class, "answer"])->name("projects.questions.answer");
 
 
-    Route::get("docs", [DocsController::class, "docs"])->name("docs");
+    Route::get("docs/{page?}", [DocsController::class, "docs"])->name("docs");
 });

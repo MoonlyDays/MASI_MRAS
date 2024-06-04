@@ -12,9 +12,9 @@ class DocsController extends Controller
     /**
      * @throws FileNotFoundException
      */
-    public function docs(): View
+    public function docs(string $page = "main"): View
     {
-        $docs = File::get(resource_path("docs/main.md"));
+        $docs = File::get(resource_path("docs/" . $page . ".md"));
 
         return view("docs", [
             "content" => $docs,
