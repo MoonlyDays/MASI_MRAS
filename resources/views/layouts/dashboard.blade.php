@@ -22,8 +22,9 @@
             </div>
             <div class="navbar-nav w-100">
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                                class="fa fa-laptop me-2"></i>Projects</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+						<i class="fa fa-laptop me-2"></i>Projects
+					</a>
                     <div class="dropdown-menu bg-transparent border-0">
 
                         @foreach(Auth::user()->projects as $project)
@@ -38,9 +39,26 @@
                         </a>
                     </div>
                 </div>
-                <a href="{{ route("docs") }}" class="nav-item nav-link">
-                    <i class="fa fa-th me-2"></i>Docs
-                </a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+						<i class="fa fa-th me-2"></i>Docs
+					</a>
+                    <div class="dropdown-menu bg-transparent border-0">
+
+                        @foreach(File::files(resource_path("docs")) as $file)
+						@php($title = substr($file->getFilename(), 0, -3))
+						<a href="{{ route("docs", $title) }}" class="dropdown-item">
+							   {{ $title }}
+						</a>
+                        @endforeach
+
+                        <a href="{{ route("projects.create") }}"
+                           class="dropdown-item text-primary flex gap-2 items-center">
+                            @svg('ri-add-circle-fill', 'w-4')
+                            <div>Create New</div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </nav>
     </div>
