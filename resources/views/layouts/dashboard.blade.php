@@ -51,15 +51,10 @@
                         @foreach(File::files(resource_path("docs")) as $file)
                             @php($title = substr($file->getFilename(), 0, -3))
                             <a href="{{ route("docs", $title) }}" class="dropdown-item">
-                                {{ $title }}
+                                {{ Str::title(Str::replace('_', ' ', $title)) }}
                             </a>
                         @endforeach
 
-                        <a href="{{ route("projects.create") }}"
-                           class="dropdown-item text-primary flex gap-2 items-center">
-                            @svg('ri-add-circle-fill', 'w-4')
-                            <div>Create New</div>
-                        </a>
                     </div>
                 </div>
             </div>

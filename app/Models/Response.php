@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -17,6 +17,7 @@ use Illuminate\Support\Carbon;
  * @property int $project_id
  * @property int $question_id
  * @property int $answer
+ * @property string|null $reason
  * @property-read Question|null $question
  * @method static Builder|Response newModelQuery()
  * @method static Builder|Response newQuery()
@@ -27,6 +28,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Response whereProjectId($value)
  * @method static Builder|Response whereQuestionId($value)
  * @method static Builder|Response whereUpdatedAt($value)
+ * @method static Builder|Response whereReason($value)
  * @mixin Eloquent
  */
 class Response extends Model
@@ -37,6 +39,7 @@ class Response extends Model
 
     protected $fillable = [
         'answer',
+        'reason',
     ];
 
     public function question(): BelongsTo

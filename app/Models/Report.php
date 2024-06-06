@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property Carbon|null $created_at
@@ -79,7 +79,7 @@ class Report extends Model
         });
     }
 
-    public function answerFor(Question $question): int|false
+    public function answerFor(Question $question): array|false
     {
         return Arr::get($this->data, $question->id, false);
     }
@@ -103,20 +103,22 @@ class Report extends Model
                 continue;
             }
 
+            $answerType = $answer[0];
             $listing = [
                 'question' => $question->question,
-                'answer' => $answer,
+                'answer' => $answerType,
             ];
 
-            if ($answer == Response::UNRELATED) {
+            if ($answerType == Response::UNRELATED) {
                 $listing['color'] = 'text-yellow-500';
+                $listing['reason'] = $answer[1];
                 $listings[] = $listing;
                 continue;
             }
 
             $relatedCount++;
             $expected = $question->expected ? Response::YES : Response::NO;
-            if ($expected == $answer) {
+            if ($expected == $answerType) {
                 $listing['color'] = 'text-green-500';
                 $secureCount++;
             } else {

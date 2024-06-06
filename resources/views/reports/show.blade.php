@@ -15,6 +15,7 @@
 
         <div class="bg-secondary rounded py-3 px-4 mb-2">
             <h6 class="text-xl">Report generated from {{ $report->created_at->toDateTimeString() }}</h6>
+            <div>Total Security Level: {{ $report->statsFor(null)["secure_percent"] }}%</div>
         </div>
 
         @foreach($report->categories() as $category)
@@ -31,8 +32,11 @@
                     </thead>
                     <tbody>
                     @foreach($stats["listings"] as $listing)
-                        <tr @class(["opacity-30" => $listing['answer'] == Response::UNRELATED])>
-                            <td> {{ $listing['question'] }}</td>
+                        <tr @class(["opacity-80" => $listing['answer'] == Response::UNRELATED])>
+                            <td>
+                                <div>{{ $listing['question'] }}</div>
+                                <div class="text-sm italic mt-1 opacity-50">{{ $listing['reason'] ?? '' }}</div>
+                            </td>
                             <td class="{{ $listing['color'] }}"> {!! $answerDisplay[$listing['answer']] !!}</td>
                         </tr>
                     @endforeach
@@ -66,7 +70,7 @@
 
                 <ul class="list-disc m-4">
                     @foreach($stats['advices'] as $advice)
-                        <li class="pl-2 ">{{ $advice }}</li>
+                        <li class="pl-2 whitespace-pre-line">{{ $advice }}</li>
                     @endforeach
                 </ul>
             </div>

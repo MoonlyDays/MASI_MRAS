@@ -62,7 +62,7 @@ class Project extends Model
         return Question::count() <= $this->responses()->count();
     }
 
-    public function setAnswerFor(Question $question, int $answer)
+    public function setAnswerFor(Question $question, int $answer, string $reason = null): void
     {
         /** @var Response $response */
         $response = $this->responses()
@@ -70,7 +70,11 @@ class Project extends Model
             ->firstOrNew();
 
         $response->question_id = $question->id;
-        $response->answer = $answer;
+        $response->fill([
+            "answer" => $answer,
+            "reason" => $reason,
+        ]);
+
         $response->save();
     }
 }

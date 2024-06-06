@@ -25,6 +25,7 @@ class AnswerQuestionRequest extends FormRequest
     {
         return [
             "answer" => "required|integer|min:1|max:3",
+            "reason" => "required_if:answer,3|string",
         ];
     }
 }

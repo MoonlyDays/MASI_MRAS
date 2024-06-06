@@ -49,8 +49,11 @@ class ReportController extends Controller
         Gate::authorize('create', [Report::class, $project]);
 
         $project->load('responses');
+        $data = $project->responses->keyBy('question_id')->map(fn(Response $response) => [
+            $response->answer,
+            $response->reason,
+        ]);
 
-        $data = $project->responses->pluck('answer', 'question_id');
         $report = $project->reports()->create([
             'data' => $data,
             'email' => $request->get("email"),
@@ -62,14 +65,14 @@ class ReportController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function show(Report $report)
+    public function show(Report $report): View
     {
         Gate::authorize('show', $report);
         $project = $report->project;
-
         $cat = Http::get('https://api.thecatapi.com/v1/images/search')->json('0.url');
+
         return view("reports.show", compact([
-            'report', 'project', 'cat'
+            'report', 'project', 'cat',
         ]));
     }
 }

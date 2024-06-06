@@ -118,7 +118,11 @@ class ProjectsController extends Controller
     {
         Gate::authorize("update", $project);
 
-        $project->setAnswerFor($question, $request->get("answer"));
+        $project->setAnswerFor(
+            $question,
+            $request->get("answer"),
+            $request->get("reason")
+        );
 
         $nextQuestion = $question->next();
         if (isset($nextQuestion)) {

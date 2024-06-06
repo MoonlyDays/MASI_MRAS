@@ -104,15 +104,102 @@
                                 name="answer"
                                 id="answerUnrelated"
                                 value="3"
-                                onchange="this.form.submit()"
+                                onchange="document.querySelector('#answerReason').disabled = false;"
                                 {{ $response?->answer == 3 ? "checked" : "" }}
                         >
                         <label class="form-check-label" for="answerUnrelated">Unrelated</label>
                     </div>
+
+                    <div class="form-check">
+                        <select
+                                {{ $response?->answer == Response::UNRELATED ? "" : "disabled" }}
+                                class="form-select w-full disabled:opacity-20"
+                                name="reason"
+                                id="answerReason"
+                                onchange="this.form.submit()"
+                        >
+                            <option disabled>
+                                -- Выберите причину тряски --
+                            </option>
+                            <option>
+                                Устаревший стандарт: Вопрос относится к стандарту, который больше не используется в
+                                нашей системе управления.
+                            </option>
+                            <option>
+                                Не используем такую политику: Политика, упомянутая в вопросе, не применяется в
+                                рамках нашей текущей системы управления.
+                            </option>
+                            <option>
+                                Отказались от политики: Политика была ранее использована, но была отменена или
+                                заменена другой.
+                            </option>
+                            <option>
+                                Не релевантно к текущей инфраструктуре: Вопрос не имеет отношения к текущей
+                                ИКТ-инфраструктуре организации.
+                            </option>
+                            <option>
+                                Вопрос вне сферы нашей деятельности: Вопрос касается области, которая не входит в нашу
+                                сферу деятельности или ответственности.
+                            </option>
+                            <option>
+                                Требования не применимы: Указанные требования не применимы к нашей организации из-за
+                                особенностей нашей деятельности.
+                            </option>
+                            <option>
+                                Политика не соответствует законодательству: Политика, указанная в вопросе, не
+                                соответствует местным или международным законодательным требованиям.
+                            </option>
+                            <option>
+                                Используем другой подход: Вопрос касается метода или подхода, который не
+                                используется в нашей организации.
+                            </option>
+                            <option>
+                                Неактуально для текущих процессов: Вопрос неактуален для наших текущих процессов и
+                                процедур.
+                            </option>
+                            <option>
+                                Неприменимо к нашему типу данных: Вопрос касается типов данных, которые не
+                                обрабатываются нашей системой.
+                            </option>
+
+                            <option>
+                                Политика не поддерживается нашими системами: Наши системы не поддерживают указанную
+                                политику или методологию.
+                            </option>
+
+                            <option>
+                                Не предусмотрено стратегией безопасности: Вопрос не отражает наши стратегические
+                                цели и планы в области информационной безопасности.
+                            </option>
+
+                            <option>
+                                Не связано с нашей операционной деятельностью: Вопрос не связан с повседневной
+                                операционной деятельностью нашей организации.
+                            </option>
+
+                            <option>
+                                Недостаточно информации для применения: Вопрос не содержит достаточной информации
+                                для его применения в нашей системе.
+                            </option>
+
+                            <option>
+                                Конфликтует с другими политиками: Политика, указанная в вопросе, конфликтует с
+                                другими нашими политиками и процедурами
+                            </option>
+                        </select>
+
+                        <script>
+                            (() => {
+                                const select = document.querySelector('#answerReason');
+                                const reason = "{{ $response?->reason }}";
+                                select.selectedIndex = Array.from(select.options).findIndex(x => x.value === reason);
+                                if (select.selectedIndex < 0) select.selectedIndex = 0;
+                            })();
+                        </script>
+                    </div>
                 </form>
 
                 <div class="mt-4">
-
                     @isset($nextQuestionId)
                         <a href="{{ route("projects.questions.show", [$project, $nextQuestionId]) }}">
                             <button type="button" class="btn btn-primary m-2 font-bold flex gap-2 items-center">

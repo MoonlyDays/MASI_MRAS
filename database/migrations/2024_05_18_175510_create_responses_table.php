@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->foreignIdFor(Project::class);
             $table->foreignIdFor(Question::class);
             $table->unsignedInteger("answer");
+            $table->string("reason")->nullable();
 
             $table->unique(["project_id", "question_id"]);
         });
