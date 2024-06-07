@@ -18,7 +18,7 @@
             <tr>
                 <th scope="col"></th>
                 <th scope="col" class="w-full">Title</th>
-                <th scope="col">Secure Percent</th>
+                <th scope="col" class="whitespace-nowrap">Security Level</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -53,7 +53,7 @@
                     </button>
                 </a>
             @else
-                <div>Please <a href="{{ route("projects.show", $project) }}">finish the survey</a> to generate the
+                <div>Please <a href="{{ route("projects.show", $project) }}">finish the survey</a> to generate a
                     report.
                 </div>
             @endif
