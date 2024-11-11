@@ -12,13 +12,10 @@ class DocsController extends Controller
      */
     public function docs(string $page = 'main')
     {
-        return measure('yeblan?', function () use ($page) {
+        $docs = File::get(resource_path('docs/'.$page.'.md'));
 
-            $docs = File::get(resource_path('docs/'.$page.'.md'));
-
-            return view('docs', [
-                'content' => $docs,
-            ]);
-        });
+        return view('docs', [
+            'content' => $docs,
+        ]);
     }
 }

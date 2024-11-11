@@ -8,6 +8,7 @@ use App\Models\User;
 use Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Log;
 
 class AuthController extends Controller
 {
@@ -21,6 +22,7 @@ class AuthController extends Controller
         $remember = $request->filled('remember');
         if (Auth::attempt($request->only(['name', 'password']), $remember)) {
             session()->regenerateToken();
+            Log::info('User '.Auth::user()->name.' logged in');
 
             return to_route('projects.index');
         }
@@ -44,11 +46,14 @@ class AuthController extends Controller
         Auth::login($user, $remember);
         session()->regenerateToken();
 
+        Log::info('User '.Auth::user()->name.' registered');
+
         return to_route('projects.create');
     }
 
     public function logout(): RedirectResponse
     {
+        Log::info('User '.Auth::user()->name.' logged out');
         Auth::logout();
         session()->regenerateToken();
 

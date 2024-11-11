@@ -12,6 +12,7 @@ use Gate;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Log;
 
 class ProjectsController extends Controller
 {
@@ -45,7 +46,12 @@ class ProjectsController extends Controller
 
         $user = Auth::user();
         $data = $request->validated();
+
+        /** @var Project $project */
         $project = $user->projects()->create($data);
+        Log::info('Project was created', [
+            'project_id' => $project->id,
+        ]);
 
         return to_route('projects.show', $project);
     }
@@ -79,6 +85,9 @@ class ProjectsController extends Controller
 
         $data = $request->validated();
         $project->update($data);
+        Log::info('Project was edited', [
+            'project_id' => $project->id,
+        ]);
 
         return to_route('projects.show', $project);
     }
@@ -117,11 +126,20 @@ class ProjectsController extends Controller
     {
         Gate::authorize('update', $project);
 
+        $answer = $request->get('answer');
+        $reason = $request->get('reason');
+
         $project->setAnswerFor(
             $question,
-            $request->get('answer'),
-            $request->get('reason')
+            $answer,
+            $reason
         );
+
+        Log::info('An answer was given', [
+            'project_id' => $project->id,
+            'question_id' => $question->id,
+            'answer' => $answer,
+        ]);
 
         $nextQuestion = $question->next();
         if (isset($nextQuestion)) {

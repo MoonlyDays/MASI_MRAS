@@ -52,6 +52,13 @@ return [
 
     'channels' => [
 
+        'maxim' => [
+            'driver' => 'custom',
+            'via' => App\Logging\MaximLogger::class,
+            'host' => env('MAXIM_LOGGER_HOST', '127.0.0.1'),
+            'port' => env('MAXIM_LOGGER_PORT', 5003),
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => explode(',', env('LOG_STACK', 'single')),

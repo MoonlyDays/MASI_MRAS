@@ -13,6 +13,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Log;
 use Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -56,9 +57,13 @@ class ReportController extends Controller
             $response->reason,
         ]);
 
+        /** @var Report $report */
         $report = $project->reports()->create([
             'data' => $data,
             'email' => $request->get('email'),
+        ]);
+        Log::info('A report was was created.', [
+            'report_id' => $report->id,
         ]);
 
         return to_route('reports.show', $report);
@@ -70,6 +75,7 @@ class ReportController extends Controller
     public function show(Report $report): View
     {
         Gate::authorize('show', $report);
+
         $project = $report->project;
         $cat = Http::get('https://api.thecatapi.com/v1/images/search')->json('0.url');
 
@@ -103,6 +109,9 @@ class ReportController extends Controller
 
             $storage->put($path, $res->body());
         }
+        Log::info('A report was was downloaded.', [
+            'report_id' => $report->id,
+        ]);
 
         return $storage->download($path);
     }
