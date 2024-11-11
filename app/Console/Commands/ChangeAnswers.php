@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\AnswerType;
 use App\Models\Project;
 use App\Models\Question;
-use App\Models\Response;
 use Illuminate\Console\Command;
 
 class ChangeAnswers extends Command
@@ -31,9 +31,9 @@ class ChangeAnswers extends Command
         $questions = Question::all();
         $projects = Project::all();
         $display = collect([
-            Response::YES => 'Yes',
-            Response::NO => 'No',
-            Response::UNRELATED => 'Unrelated',
+            AnswerType::YES->value => 'Yes',
+            AnswerType::NO->value => 'No',
+            AnswerType::UNRELATED->value => 'Unrelated',
         ]);
 
         $forceAnswer = $this->argument('answer');
@@ -57,7 +57,7 @@ class ChangeAnswers extends Command
                     $answer = $forceAnswer;
                 } else {
                     if (rand(0, 100) < $chance) {
-                        $answer = $question->expected ? Response::YES : Response::NO;
+                        $answer = $question->expected ? AnswerType::YES->value : AnswerType::NO->value;
                     } else {
                         $answer = rand(1, 3);
                     }

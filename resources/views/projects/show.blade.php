@@ -1,5 +1,5 @@
 @php
-    use App\Models\Category;
+    use App\Enums\AnswerType;use App\Models\Category;
     use App\Models\Project;
     use App\Models\Question;
     use App\Models\Response;
@@ -37,13 +37,13 @@
                                             @php($catQuestResp = $catQuestion->responses->first())
                                             @isset($catQuestResp)
                                                 @switch($catQuestResp->answer)
-                                                    @case(Response::YES)
+                                                    @case(AnswerType::YES->value)
                                                         @svg('fontisto-wink', 'w-5 shrink-0 text-green-500')
                                                         @break
-                                                    @case(Response::NO)
+                                                    @case(AnswerType::NO->value)
                                                         @svg('fontisto-mad', 'w-5 shrink-0 text-red-500')
                                                         @break
-                                                    @case(Response::UNRELATED)
+                                                    @case(AnswerType::UNRELATED->value)
                                                         @svg('fontisto-neutral', 'w-5 shrink-0 text-yellow-500')
                                                         @break
                                                 @endswitch
@@ -112,7 +112,7 @@
 
                     <div class="form-check">
                         <select
-                                {{ $response?->answer == Response::UNRELATED ? "" : "disabled" }}
+                                {{ $response?->answer == AnswerType::UNRELATED->value ? "" : "disabled" }}
                                 class="form-select w-full disabled:opacity-20"
                                 name="reason"
                                 id="answerReason"

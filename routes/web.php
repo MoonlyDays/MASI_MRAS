@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('projects', ProjectsController::class);
     Route::resource('projects.reports', ReportController::class)->shallow();
+    Route::get('reports/{report}/download', [ReportController::class, 'download'])->name('reports.download');
 
     Route::get('projects/{project}/questions/{question}',
         [ProjectsController::class, 'question'])->name('projects.questions.show');

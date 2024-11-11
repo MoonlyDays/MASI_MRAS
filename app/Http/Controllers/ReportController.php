@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AnswerType;
 use App\Http\Requests\ReportRequest;
 use App\Models\Project;
 use App\Models\Report;
@@ -9,8 +10,11 @@ use App\Models\Response;
 use Gate;
 use Http;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportController extends Controller
 {
@@ -72,5 +76,34 @@ class ReportController extends Controller
         return view('reports.show', compact([
             'report', 'project', 'cat',
         ]));
+    }
+
+    /**
+     * @throws ConnectionException
+     */
+    public function download(Report $report): StreamedResponse
+    {
+        $name = 'report_'.$report->created_at->timestamp.'.xlsx';
+        $path = "reports/$name";
+        $storage = Storage::disk('local');
+        if (! $storage->exists($path)) {
+
+            $listings = collect($report->statsFor(null)['listings']);
+
+            $questions = $listings->pluck('question')->all();
+            $answers = $listings->pluck('answer')->map(fn ($answer) => AnswerType::from($answer)->name)->all();
+            $security_results = $listings->pluck('reason')->all();
+
+            $data = compact('questions', 'answers', 'security_results');
+            $host = config('services.maxim_excel.host');
+            $port = config('services.maxim_excel.port');
+
+            $res = Http::withBody(json_encode($data))
+                ->post("http://$host:$port/export_to_excel");
+
+            $storage->put($path, $res->body());
+        }
+
+        return $storage->download($path);
     }
 }

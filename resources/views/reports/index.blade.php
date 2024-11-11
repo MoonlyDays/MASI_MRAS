@@ -34,10 +34,16 @@
                     <td class="align-middle">
                         {{ $report->percent }}%
                     </td>
-                    <td>
+                    <td class="flex gap-2">
                         <a href="{{ route("reports.show", $report) }}">
                             <button type="button" class="btn btn-light text-nowrap flex items-center gap-1">
                                 @svg('bi-eye-fill') View Report
+                            </button>
+                        </a>
+                        <a href="{{ route("reports.download", $report) }}">
+                            <button type="button" class="btn btn-light text-nowrap flex items-center gap-1">
+                                @svg('ri-download-cloud-2-fill', "w-4")
+                                Download
                             </button>
                         </a>
                     </td>

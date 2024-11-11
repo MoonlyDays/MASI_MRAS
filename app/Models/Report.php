@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AnswerType;
 use App\Mail\ReportMail;
 use Arr;
 use Eloquent;
@@ -51,7 +52,7 @@ class Report extends Model
         parent::boot();
 
         self::created(function (Report $report) {
-            Mail::to($report->email)->send(
+            Mail::to($report->email)->queue(
                 new ReportMail($report)
             );
         });
@@ -121,7 +122,7 @@ class Report extends Model
                 'answer' => $answerType,
             ];
 
-            if ($answerType == Response::UNRELATED) {
+            if ($answerType == AnswerType::UNRELATED->value) {
                 $listing['color'] = 'text-yellow-500';
                 $listing['reason'] = $answer[1];
                 $listings[] = $listing;
@@ -130,7 +131,7 @@ class Report extends Model
             }
 
             $relatedCount++;
-            $expected = $question->expected ? Response::YES : Response::NO;
+            $expected = $question->expected ? AnswerType::YES->value : AnswerType::NO->value;
             if ($expected == $answerType) {
                 $listing['color'] = 'text-green-500';
                 $secureCount++;

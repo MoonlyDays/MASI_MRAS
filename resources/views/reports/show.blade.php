@@ -1,5 +1,5 @@
 @php
-    use App\Models\Report;
+    use App\Enums\AnswerType;use App\Models\Report;
     use App\Models\Response;
     /** @var Report $report */
 
@@ -32,7 +32,7 @@
                     </thead>
                     <tbody>
                     @foreach($stats["listings"] as $listing)
-                        <tr @class(["opacity-80" => $listing['answer'] == Response::UNRELATED])>
+                        <tr @class(["opacity-80" => $listing['answer'] == AnswerType::UNRELATED->value])>
                             <td>
                                 <div>{{ $listing['question'] }}</div>
                                 <div class="text-sm italic mt-1 opacity-50">{{ $listing['reason'] ?? '' }}</div>

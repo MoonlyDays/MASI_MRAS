@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\AnswerType;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -33,12 +34,6 @@ use Illuminate\Support\Carbon;
  */
 class Response extends Model
 {
-    const YES = 1;
-
-    const NO = 2;
-
-    const UNRELATED = 3;
-
     protected $fillable = [
         'answer',
         'reason',
@@ -51,12 +46,12 @@ class Response extends Model
 
     public function score(): int
     {
-        if ($this->answer == self::UNRELATED) {
+        if ($this->answer == AnswerType::UNRELATED->value) {
             // No difference.
             return 0;
         }
 
-        $expected = $this->question->expected ? self::YES : self::NO;
+        $expected = $this->question->expected ? AnswerType::YES->value : AnswerType::NO->value;
 
         return $this->answer == $expected ? 1 : -1;
     }

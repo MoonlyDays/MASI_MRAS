@@ -14,6 +14,11 @@ return [
     |
     */
 
+    'maxim_excel' => [
+        'port' => env('MAXIM_EXCEL_PORT'),
+        'host' => env('MAXIM_EXCEL_HOST'),
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
