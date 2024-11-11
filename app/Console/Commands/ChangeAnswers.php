@@ -36,22 +36,22 @@ class ChangeAnswers extends Command
             Response::UNRELATED => 'Unrelated',
         ]);
 
-        $forceAnswer = $this->argument("answer");
+        $forceAnswer = $this->argument('answer');
         if (isset($forceAnswer)) {
-            if (!$display->has($forceAnswer)) {
-                $this->error("Invalid answer type");
+            if (! $display->has($forceAnswer)) {
+                $this->error('Invalid answer type');
 
                 return;
             }
         }
 
-        $chance = $this->option("chance") ?? 0;
-        $this->info("Random chance of correct answer: ".$chance."%");
+        $chance = $this->option('chance') ?? 0;
+        $this->info('Random chance of correct answer: '.$chance.'%');
 
         foreach ($projects as $project) {
-            $this->info("********************************************************");
-            $this->info("Project: ".$project->title);
-            $this->info("********************************************************");
+            $this->info('********************************************************');
+            $this->info('Project: '.$project->title);
+            $this->info('********************************************************');
             foreach ($questions as $question) {
                 if (isset($forceAnswer)) {
                     $answer = $forceAnswer;
@@ -63,7 +63,7 @@ class ChangeAnswers extends Command
                     }
                 }
 
-                $this->warn(sprintf("Answer: %10s : %s", $display[$answer], $question->question));
+                $this->warn(sprintf('Answer: %10s : %s', $display[$answer], $question->question));
                 $project->setAnswerFor($question, $answer);
             }
         }

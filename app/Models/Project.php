@@ -11,32 +11,32 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- *
- *
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property int $user_id
  * @property string $title
- * @property-read User $user
- * @property-read Collection<int, Response> $responses
- * @property-read int|null $responses_count
  * @property-read Collection<int, Report> $reports
  * @property-read int|null $reports_count
- * @method static Builder|Project newModelQuery()
- * @method static Builder|Project newQuery()
- * @method static Builder|Project query()
- * @method static Builder|Project whereCreatedAt($value)
- * @method static Builder|Project whereId($value)
- * @method static Builder|Project whereTitle($value)
- * @method static Builder|Project whereUpdatedAt($value)
- * @method static Builder|Project whereUserId($value)
+ * @property-read Collection<int, Response> $responses
+ * @property-read int|null $responses_count
+ * @property-read User $user
+ *
+ * @method static Builder<static>|Project newModelQuery()
+ * @method static Builder<static>|Project newQuery()
+ * @method static Builder<static>|Project query()
+ * @method static Builder<static>|Project whereCreatedAt($value)
+ * @method static Builder<static>|Project whereId($value)
+ * @method static Builder<static>|Project whereTitle($value)
+ * @method static Builder<static>|Project whereUpdatedAt($value)
+ * @method static Builder<static>|Project whereUserId($value)
+ *
  * @mixin Eloquent
  */
 class Project extends Model
 {
     protected $fillable = [
-        "title",
+        'title',
     ];
 
     public function user(): BelongsTo
@@ -62,7 +62,7 @@ class Project extends Model
         return Question::count() <= $this->responses()->count();
     }
 
-    public function setAnswerFor(Question $question, int $answer, string $reason = null): void
+    public function setAnswerFor(Question $question, int $answer, ?string $reason = null): void
     {
         /** @var Response $response */
         $response = $this->responses()
@@ -71,8 +71,8 @@ class Project extends Model
 
         $response->question_id = $question->id;
         $response->fill([
-            "answer" => $answer,
-            "reason" => $reason,
+            'answer' => $answer,
+            'reason' => $reason,
         ]);
 
         $response->save();

@@ -10,21 +10,21 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
- * 
- *
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string $title
  * @property-read Collection<int, Question> $questions
  * @property-read int|null $questions_count
- * @method static Builder|Category newModelQuery()
- * @method static Builder|Category newQuery()
- * @method static Builder|Category query()
- * @method static Builder|Category whereCreatedAt($value)
- * @method static Builder|Category whereId($value)
- * @method static Builder|Category whereTitle($value)
- * @method static Builder|Category whereUpdatedAt($value)
+ *
+ * @method static Builder<static>|Category newModelQuery()
+ * @method static Builder<static>|Category newQuery()
+ * @method static Builder<static>|Category query()
+ * @method static Builder<static>|Category whereCreatedAt($value)
+ * @method static Builder<static>|Category whereId($value)
+ * @method static Builder<static>|Category whereTitle($value)
+ * @method static Builder<static>|Category whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  */
 class Category extends Model

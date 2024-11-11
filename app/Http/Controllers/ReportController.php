@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReportRequest;
-use App\Models\Category;
 use App\Models\Project;
-use App\Models\Question;
 use App\Models\Report;
 use App\Models\Response;
 use Gate;
@@ -49,17 +47,17 @@ class ReportController extends Controller
         Gate::authorize('create', [Report::class, $project]);
 
         $project->load('responses');
-        $data = $project->responses->keyBy('question_id')->map(fn(Response $response) => [
+        $data = $project->responses->keyBy('question_id')->map(fn (Response $response) => [
             $response->answer,
             $response->reason,
         ]);
 
         $report = $project->reports()->create([
             'data' => $data,
-            'email' => $request->get("email"),
+            'email' => $request->get('email'),
         ]);
 
-        return to_route("reports.show", $report);
+        return to_route('reports.show', $report);
     }
 
     /**
@@ -71,7 +69,7 @@ class ReportController extends Controller
         $project = $report->project;
         $cat = Http::get('https://api.thecatapi.com/v1/images/search')->json('0.url');
 
-        return view("reports.show", compact([
+        return view('reports.show', compact([
             'report', 'project', 'cat',
         ]));
     }

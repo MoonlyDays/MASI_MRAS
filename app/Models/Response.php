@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
- *
- *
  * @property int $id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -19,22 +17,26 @@ use Illuminate\Support\Carbon;
  * @property int $answer
  * @property string|null $reason
  * @property-read Question|null $question
- * @method static Builder|Response newModelQuery()
- * @method static Builder|Response newQuery()
- * @method static Builder|Response query()
- * @method static Builder|Response whereAnswer($value)
- * @method static Builder|Response whereCreatedAt($value)
- * @method static Builder|Response whereId($value)
- * @method static Builder|Response whereProjectId($value)
- * @method static Builder|Response whereQuestionId($value)
- * @method static Builder|Response whereUpdatedAt($value)
- * @method static Builder|Response whereReason($value)
+ *
+ * @method static Builder<static>|Response newModelQuery()
+ * @method static Builder<static>|Response newQuery()
+ * @method static Builder<static>|Response query()
+ * @method static Builder<static>|Response whereAnswer($value)
+ * @method static Builder<static>|Response whereCreatedAt($value)
+ * @method static Builder<static>|Response whereId($value)
+ * @method static Builder<static>|Response whereProjectId($value)
+ * @method static Builder<static>|Response whereQuestionId($value)
+ * @method static Builder<static>|Response whereReason($value)
+ * @method static Builder<static>|Response whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  */
 class Response extends Model
 {
     const YES = 1;
+
     const NO = 2;
+
     const UNRELATED = 3;
 
     protected $fillable = [

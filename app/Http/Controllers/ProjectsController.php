@@ -7,7 +7,6 @@ use App\Http\Requests\ProjectRequest;
 use App\Models\Category;
 use App\Models\Project;
 use App\Models\Question;
-use App\Models\Response;
 use Auth;
 use Gate;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -16,15 +15,15 @@ use Illuminate\View\View;
 
 class ProjectsController extends Controller
 {
-    function index(): RedirectResponse
+    public function index(): RedirectResponse
     {
         $user = Auth::user();
         $project = $user->projects()->first();
         if (empty($project)) {
-            return to_route("projects.create");
+            return to_route('projects.create');
         }
 
-        return to_route("projects.show", $project);
+        return to_route('projects.show', $project);
     }
 
     /**
@@ -32,9 +31,9 @@ class ProjectsController extends Controller
      */
     public function create(): View
     {
-        Gate::authorize("create", Project::class);
+        Gate::authorize('create', Project::class);
 
-        return view("projects.create");
+        return view('projects.create');
     }
 
     /**
@@ -42,13 +41,13 @@ class ProjectsController extends Controller
      */
     public function store(ProjectRequest $request): RedirectResponse
     {
-        Gate::authorize("create", Project::class);
+        Gate::authorize('create', Project::class);
 
         $user = Auth::user();
         $data = $request->validated();
         $project = $user->projects()->create($data);
 
-        return to_route("projects.show", $project);
+        return to_route('projects.show', $project);
     }
 
     /**
@@ -56,9 +55,9 @@ class ProjectsController extends Controller
      */
     public function show(Project $project): RedirectResponse
     {
-        Gate::authorize("show", $project);
+        Gate::authorize('show', $project);
 
-        return to_route("projects.questions.show", [$project, 1]);
+        return to_route('projects.questions.show', [$project, 1]);
     }
 
     /**
@@ -66,9 +65,9 @@ class ProjectsController extends Controller
      */
     public function edit(Project $project): View
     {
-        Gate::authorize("update", $project);
+        Gate::authorize('update', $project);
 
-        return view("projects.edit", compact("project"));
+        return view('projects.edit', compact('project'));
     }
 
     /**
@@ -76,12 +75,12 @@ class ProjectsController extends Controller
      */
     public function update(Project $project, ProjectRequest $request): RedirectResponse
     {
-        Gate::authorize("update", $project);
+        Gate::authorize('update', $project);
 
         $data = $request->validated();
         $project->update($data);
 
-        return to_route("projects.show", $project);
+        return to_route('projects.show', $project);
     }
 
     /**
@@ -89,25 +88,25 @@ class ProjectsController extends Controller
      */
     public function question(Project $project, Question $question): View
     {
-        Gate::authorize("update", $project);
-        $question->load("category");
+        Gate::authorize('update', $project);
+        $question->load('category');
 
         $categories = Category::with([
-            "questions" => [
-                "responses" => fn($query) => $query->where('project_id', $project->id),
+            'questions' => [
+                'responses' => fn ($query) => $query->where('project_id', $project->id),
             ],
         ])->get();
-        $nextQuestionId = Question::where("id", '>', $question->id)->min("id");
+        $nextQuestionId = Question::where('id', '>', $question->id)->min('id');
         $response = $project->responses()
             ->where('question_id', $question->id)
             ->first();
 
-        return view("projects.show", compact(
-            "project",
-            "categories",
-            "question",
-            "nextQuestionId",
-            "response"
+        return view('projects.show', compact(
+            'project',
+            'categories',
+            'question',
+            'nextQuestionId',
+            'response'
         ));
     }
 
@@ -116,17 +115,17 @@ class ProjectsController extends Controller
      */
     public function answer(Project $project, Question $question, AnswerQuestionRequest $request): RedirectResponse
     {
-        Gate::authorize("update", $project);
+        Gate::authorize('update', $project);
 
         $project->setAnswerFor(
             $question,
-            $request->get("answer"),
-            $request->get("reason")
+            $request->get('answer'),
+            $request->get('reason')
         );
 
         $nextQuestion = $question->next();
         if (isset($nextQuestion)) {
-            return to_route("projects.questions.show", [$project, $nextQuestion]);
+            return to_route('projects.questions.show', [$project, $nextQuestion]);
         }
 
         return back();

@@ -36,6 +36,12 @@ return [
 
     'mailers' => [
 
+        'maxim' => [
+            'transport' => 'maxim',
+            'host' => env('MAIL_HOST', '127.0.0.1'),
+            'port' => env('MAIL_PORT', 2525),
+        ],
+
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),

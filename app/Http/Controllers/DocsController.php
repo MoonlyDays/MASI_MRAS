@@ -4,20 +4,21 @@ namespace App\Http\Controllers;
 
 use File;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class DocsController extends Controller
 {
     /**
      * @throws FileNotFoundException
      */
-    public function docs(string $page = "main"): View
+    public function docs(string $page = 'main')
     {
-        $docs = File::get(resource_path("docs/" . $page . ".md"));
+        return measure('yeblan?', function () use ($page) {
 
-        return view("docs", [
-            "content" => $docs,
-        ]);
+            $docs = File::get(resource_path('docs/'.$page.'.md'));
+
+            return view('docs', [
+                'content' => $docs,
+            ]);
+        });
     }
 }

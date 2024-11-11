@@ -6,7 +6,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -18,10 +19,10 @@ return new class extends Migration {
 
             $table->foreignIdFor(Project::class);
             $table->foreignIdFor(Question::class);
-            $table->unsignedInteger("answer");
-            $table->string("reason")->nullable();
+            $table->unsignedInteger('answer');
+            $table->string('reason')->nullable();
 
-            $table->unique(["project_id", "question_id"]);
+            $table->unique(['project_id', 'question_id']);
         });
     }
 

@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Auth;
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ReportRequest extends FormRequest
@@ -13,15 +12,10 @@ class ReportRequest extends FormRequest
         return Auth::check();
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array|string>
-     */
     public function rules(): array
     {
         return [
-            "email" => "required|email"
+            'email' => 'required|email',
         ];
     }
 }

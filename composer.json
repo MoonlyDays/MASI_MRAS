@@ -14,6 +14,7 @@
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "mallardduck/blade-boxicons": "^2.4",
+        "opcodesio/log-viewer": "^3.12",
         "ryangjchandler/blade-tabler-icons": "^2.3"
     },
     "require-dev": {

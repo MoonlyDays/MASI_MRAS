@@ -17,9 +17,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreignIdFor(Category::class)->constrained()->cascadeOnDelete();
-            $table->string("question");
-            $table->boolean("expected");
-            $table->string("advice")->nullable();
+            $table->string('question');
+            $table->boolean('expected');
+            $table->string('advice')->nullable();
         });
     }
 

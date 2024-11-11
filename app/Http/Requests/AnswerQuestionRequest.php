@@ -24,8 +24,8 @@ class AnswerQuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "answer" => "required|integer|min:1|max:3",
-            "reason" => "required_if:answer,3|string",
+            'answer' => 'required|integer|min:1|max:3',
+            'reason' => 'required_if:answer,3|string',
         ];
     }
 }
