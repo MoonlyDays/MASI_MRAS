@@ -57,9 +57,10 @@
             </div>
         </div>
 
-        <div>Login with Discord</div>
-
-        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Sign In</button>
+        <button type="submit" class="btn btn-primary py-3 w-100 mb-3">Sign In</button>
+        <a href="{{ route('login.discord') }}">
+            <div class="btn btn-secondary py-2 w-100 mb-4">Login with Discord</div>
+        </a>
         <p class="text-center mb-0">
             Don't have an Account? <a href="{{route("register")}}">Sign Up</a>
         </p>

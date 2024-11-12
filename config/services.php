@@ -15,8 +15,13 @@ return [
     */
 
     'maxim_excel' => [
-        'port' => env('MAXIM_EXCEL_PORT'),
-        'host' => env('MAXIM_EXCEL_HOST'),
+        'host' => env('MAXIM_EXCEL_HOST', '127.0.0.1'),
+        'port' => env('MAXIM_EXCEL_PORT', 5002),
+    ],
+
+    'maxim_auth' => [
+        'host' => env('MAXIM_AUTH_HOST', '127.0.0.1'),
+        'port' => env('MAXIM_AUTH_PORT', 5004),
     ],
 
     'postmark' => [

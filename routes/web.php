@@ -12,6 +12,9 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/register', [AuthController::class, 'registerForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('registerSubmit');
+
+    Route::get('/login/discord', [AuthController::class, 'discord'])->name('login.discord');
+    Route::get('/login/discord/back', [AuthController::class, 'discordBack'])->name('login.discord.back');
 });
 
 Route::middleware('auth')->group(function () {
