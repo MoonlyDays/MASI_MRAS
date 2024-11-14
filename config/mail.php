@@ -38,8 +38,8 @@ return [
 
         'maxim' => [
             'transport' => 'maxim',
-            'host' => env('MAXIM_MAIL_HOST', '127.0.0.1'),
-            'port' => env('MAXIM_MAIL_PORT', 5001),
+            'host' => env('MAIL_HOST', '127.0.0.1'),
+            'port' => env('MAIL_PORT', 5001),
         ],
 
         'smtp' => [
