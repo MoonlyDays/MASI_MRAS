@@ -20,12 +20,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    @vite("resources/lib/owlcarousel/assets/owl.carousel.min.css")
-    @vite("resources/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css")
+    <link rel="stylesheet" href="{{ asset('assets/owlcarousel/assets/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}">
 
     <!-- Customized Bootstrap Stylesheet -->
-    @vite("resources/css/bootstrap.min.css")
-    @vite("resources/css/style.css")
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
     @vite("resources/js/app.ts")
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -50,13 +50,13 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
-@vite("resources/lib/chart/chart.min.js")
-@vite("resources/lib/easing/easing.min.js")
-@vite("resources/lib/waypoints/waypoints.min.js")
-@vite("resources/lib/owlcarousel/owl.carousel.min.js")
-@vite("resources/lib/tempusdominus/js/moment.min.js")
-@vite("resources/lib/tempusdominus/js/moment-timezone.min.js")
-@vite("resources/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js")
+<script src="{{ asset("assets/chart/chart.min.js") }} "></script>
+<script src="{{ asset("assets/easing/easing.min.js") }} "></script>
+<script src="{{ asset("assets/waypoints/waypoints.min.js") }} "></script>
+<script src="{{ asset("assets/owlcarousel/owl.carousel.min.js") }} "></script>
+<script src="{{ asset("assets/tempusdominus/js/moment.min.js") }} "></script>
+<script src="{{ asset("assets/tempusdominus/js/moment-timezone.min.js") }} "></script>
+<script src="{{ asset("assets/tempusdominus/js/tempusdominus-bootstrap-4.min.js") }} "></script>
 
 <!-- Template Javascript -->
 @vite("resources/js/main.js")

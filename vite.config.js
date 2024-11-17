@@ -5,7 +5,6 @@ import { glob, globSync } from "glob";
 const input = [
     "resources/js/app.ts",
     "resources/js/main.js",
-    "resources/css/style.css",
     ...Object.values(glob.sync("resources/img/**/*")),
 ];
 
