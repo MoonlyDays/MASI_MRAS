@@ -9,7 +9,11 @@ services:
     volumes:
       - ./:/var/www
     depends_on:
-      - "database"
+      - database
+      - email
+      - logger
+      - auth
+      - excel
 
   # Web Server
   web:
@@ -20,7 +24,7 @@ services:
     volumes:
       - ./:/var/www
     depends_on:
-      - "app"
+      - app
     ports:
       - "80:80"
 
@@ -42,8 +46,6 @@ services:
       - DISCORD_CLIENT_ID=${SERVICE_AUTH_CLIENT_ID}
       - DISCORD_CLIENT_SECRET=${SERVICE_AUTH_CLIENT_SECRET}
       - DISCORD_REDIRECT_URI=${APP_URL}/login/discord/back
-    depends_on:
-      - "app"
 
   # Logger
   logger:
@@ -52,22 +54,16 @@ services:
       - LOG_FOLDER=logs
     volumes:
       - logs:/usr/src/app/logs
-    depends_on:
-      - "app"
 
   # Email
   email:
     image: moonlydays/masi-email:latest
     environment:
       - RESEND_API_KEY=${SERVICE_EMAIL_RESEND_KEY}
-    depends_on:
-      - "app"
 
   # Excel
   excel:
     image: moonlydays/masi-excel:latest
-    depends_on:
-      - "app"
 
 volumes:
   dbdata:
