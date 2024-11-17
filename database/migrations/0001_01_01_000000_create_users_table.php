@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('password')->nullable();
-            $table->unsignedInteger('discord_id')->nullable()->unique();
+            $table->string('discord_id')->nullable()->unique();
             $table->rememberToken();
             $table->timestamps();
         });
