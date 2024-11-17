@@ -52,7 +52,7 @@ class Report extends Model
         parent::boot();
 
         self::created(function (Report $report) {
-            Mail::to($report->email)->queue(
+            Mail::to($report->email)->send(
                 new ReportMail($report)
             );
         });

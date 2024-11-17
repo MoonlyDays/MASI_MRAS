@@ -35,8 +35,6 @@ class EmailTransport extends AbstractTransport
                 'html' => $email->getHtmlBody(),
             ];
 
-            dump($data);
-
             Http::withBody(json_encode($data))
                 ->post("http://$this->host:$this->port/send-email");
         }

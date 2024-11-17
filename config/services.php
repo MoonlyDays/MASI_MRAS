@@ -15,30 +15,12 @@ return [
     */
 
     'maxim_excel' => [
-        'host' => env('MAXIM_EXCEL_HOST', '127.0.0.1'),
-        'port' => env('MAXIM_EXCEL_PORT', 5002),
+        'host' => env('SERVICE_EXCEL_HOST', '127.0.0.1'),
+        'port' => env('SERVICE_EXCEL_PORT', 8080),
     ],
 
     'maxim_auth' => [
-        'host' => env('MAXIM_AUTH_HOST', '127.0.0.1'),
-        'port' => env('MAXIM_AUTH_PORT', 5004),
+        'host' => env('SERVICE_AUTH_HOST', '127.0.0.1'),
+        'port' => env('SERVICE_AUTH_PORT', 8080),
     ],
-
-    'postmark' => [
-        'token' => env('POSTMARK_TOKEN'),
-    ],
-
-    'ses' => [
-        'key' => env('AWS_ACCESS_KEY_ID'),
-        'secret' => env('AWS_SECRET_ACCESS_KEY'),
-        'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
-    ],
-
-    'slack' => [
-        'notifications' => [
-            'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
-            'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
-        ],
-    ],
-
 ];

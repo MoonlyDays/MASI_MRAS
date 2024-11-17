@@ -55,8 +55,8 @@ return [
         'maxim' => [
             'driver' => 'custom',
             'via' => App\Logging\MaximLogger::class,
-            'host' => env('MAXIM_LOGGER_HOST', '127.0.0.1'),
-            'port' => env('MAXIM_LOGGER_PORT', 5003),
+            'host' => env('SERVICE_LOGGER_HOST', '127.0.0.1'),
+            'port' => env('SERVICE_LOGGER_PORT', 8080),
         ],
 
         'stack' => [

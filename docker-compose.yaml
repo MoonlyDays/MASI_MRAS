@@ -34,32 +34,41 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
-    ports:
-      - "33061:3306"
 
-  # Database management
-  pma:
-    image: phpmyadmin:5.1
+  # Email
+  auth:
+    image: moonlydays/masi-auth:latest
     environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=${DB_HOST}
-      - PMA_USER=${DB_USERNAME}
-      - PMA_PASSWORD=${DB_PASSWORD}
-      - PMA_PORT=${DB_PORT}
+      - DISCORD_CLIENT_ID=${SERVICE_AUTH_CLIENT_ID}
+      - DISCORD_CLIENT_SECRET=${SERVICE_AUTH_CLIENT_SECRET}
+      - DISCORD_REDIRECT_URI=${APP_URL}/login/discord/back
     depends_on:
-      - database
-    ports:
-      - "8888:80"
+      - "app"
+
+  # Logger
+  logger:
+    image: moonlydays/masi-logger:latest
+    environment:
+      - LOG_FOLDER=logs
+    volumes:
+      - logs:/usr/src/app/logs
+    depends_on:
+      - "app"
 
   # Email
   email:
-    image: shoxcie/email:latest
+    image: moonlydays/masi-email:latest
     environment:
-      - PORT=5001
+      - RESEND_API_KEY=${SERVICE_EMAIL_RESEND_KEY}
     depends_on:
-      - app
-    ports:
-      - "5001:5001"
+      - "app"
+
+  # Excel
+  excel:
+    image: moonlydays/masi-excel:latest
+    depends_on:
+      - "app"
 
 volumes:
   dbdata:
+  logs:
